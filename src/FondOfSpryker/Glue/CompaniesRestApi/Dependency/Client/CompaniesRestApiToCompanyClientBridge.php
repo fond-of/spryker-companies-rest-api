@@ -24,11 +24,11 @@ class CompaniesRestApiToCompanyClientBridge implements CompaniesRestApiToCompany
     /**
      * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
      *
-     * @return \Generated\Shared\Transfer\CompanyTransfer
+     * @return \Generated\Shared\Transfer\CompanyResponseTransfer
      */
-    public function getCompanyById(CompanyTransfer $companyTransfer): CompanyTransfer
+    public function findCompanyByExternalReference(CompanyTransfer $companyTransfer): CompanyResponseTransfer
     {
-        return $this->companyClient->getCompanyById($companyTransfer);
+        return $this->companyClient->findCompanyByExternalReference($companyTransfer);
     }
 
     /**
@@ -39,5 +39,15 @@ class CompaniesRestApiToCompanyClientBridge implements CompaniesRestApiToCompany
     public function createCompany(CompanyTransfer $companyTransfer): CompanyResponseTransfer
     {
         return $this->companyClient->createCompany($companyTransfer);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
+     *
+     * @return \Generated\Shared\Transfer\CompanyResponseTransfer
+     */
+    public function updateCompany(CompanyTransfer $companyTransfer): CompanyResponseTransfer
+    {
+        return $this->companyClient->updateCompany($companyTransfer);
     }
 }

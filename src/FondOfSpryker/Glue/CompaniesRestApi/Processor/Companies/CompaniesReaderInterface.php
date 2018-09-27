@@ -8,10 +8,9 @@ use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface;
 interface CompaniesReaderInterface
 {
     /**
-     * @param string $uuidQuote
      * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
      *
      * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
      */
-    public function readByIdentifier(string $uuidQuote, RestRequestInterface $restRequest): RestResponseInterface;
+    public function findCompanyByExternalReference(RestRequestInterface $restRequest): RestResponseInterface;
 }

@@ -10,9 +10,9 @@ interface CompaniesRestApiToCompanyClientInterface
     /**
      * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
      *
-     * @return \Generated\Shared\Transfer\CompanyTransfer
+     * @return \Generated\Shared\Transfer\CompanyResponseTransfer
      */
-    public function getCompanyById(CompanyTransfer $companyTransfer): CompanyTransfer;
+    public function findCompanyByExternalReference(CompanyTransfer $companyTransfer): CompanyResponseTransfer;
 
     /**
      * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
@@ -20,4 +20,11 @@ interface CompaniesRestApiToCompanyClientInterface
      * @return \Generated\Shared\Transfer\CompanyResponseTransfer
      */
     public function createCompany(CompanyTransfer $companyTransfer): CompanyResponseTransfer;
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
+     *
+     * @return \Generated\Shared\Transfer\CompanyResponseTransfer
+     */
+    public function updateCompany(CompanyTransfer $companyTransfer): CompanyResponseTransfer;
 }
