@@ -2,7 +2,7 @@
 
 namespace FondOfSpryker\Glue\CompaniesRestApi\Controller;
 
-use Generated\Shared\Transfer\RestCompaniesAttributesTransfer;
+use Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface;
 use Spryker\Glue\Kernel\Controller\AbstractController;
@@ -19,28 +19,35 @@ class CompaniesResourceController extends AbstractController
      */
     public function getAction(RestRequestInterface $restRequest): RestResponseInterface
     {
-        return $this->getFactory()->createCompaniesReader()->findCompanyByExternalReference($restRequest);
+        return $this->getFactory()->createCompaniesReader()
+            ->findCompanyByExternalReference($restRequest);
     }
 
     /**
      * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Generated\Shared\Transfer\RestCompaniesAttributesTransfer $restCompaniesAttributesTransfer
+     * @param \Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
      *
      * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
      */
-    public function postAction(RestRequestInterface $restRequest, RestCompaniesAttributesTransfer $restCompaniesAttributesTransfer): RestResponseInterface
-    {
-        return $this->getFactory()->createCompaniesWriter()->createCompany($restCompaniesAttributesTransfer);
+    public function postAction(
+        RestRequestInterface $restRequest,
+        RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
+    ): RestResponseInterface {
+        return $this->getFactory()->createCompaniesWriter()
+            ->createCompany($restRequest, $restCompaniesRequestAttributesTransfer);
     }
 
     /**
      * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Generated\Shared\Transfer\RestCompaniesAttributesTransfer $restCompaniesAttributesTransfer
+     * @param \Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
      *
      * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
      */
-    public function patchAction(RestRequestInterface $restRequest, RestCompaniesAttributesTransfer $restCompaniesAttributesTransfer): RestResponseInterface
-    {
-        return $this->getFactory()->createCompaniesWriter()->updateCompany($restRequest, $restCompaniesAttributesTransfer);
+    public function patchAction(
+        RestRequestInterface $restRequest,
+        RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
+    ): RestResponseInterface {
+        return $this->getFactory()->createCompaniesWriter()
+            ->updateCompany($restRequest, $restCompaniesRequestAttributesTransfer);
     }
 }
