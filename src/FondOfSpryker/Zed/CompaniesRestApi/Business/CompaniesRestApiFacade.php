@@ -81,4 +81,20 @@ class CompaniesRestApiFacade extends AbstractFacade implements CompaniesRestApiF
         return $this->getFactory()->createCompanyMapper()
             ->mapToCompany($restCompaniesRequestAttributesTransfer, $companyTransfer);
     }
+
+    /**
+     * Specification:
+     * - Retrieves company by external reference.
+     *
+     * @api
+     *
+     * @param string $externalReference
+     *
+     * @return \Generated\Shared\Transfer\CompanyTransfer|null
+     */
+    public function findByExternalReference(string $externalReference): ?CompanyTransfer
+    {
+        return $this->getFactory()->createCompanyReader()
+            ->findByExternalReference($externalReference);
+    }
 }

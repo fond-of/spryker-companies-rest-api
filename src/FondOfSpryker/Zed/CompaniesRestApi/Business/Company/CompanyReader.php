@@ -34,7 +34,7 @@ class CompanyReader implements CompanyReaderInterface
     public function findCompanyByExternalReference(
         RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
     ): RestCompaniesResponseTransfer {
-        $companyTransfer = $this->companiesRestApiRepository->findCompanyByExternalReference(
+        $companyTransfer = $this->findByExternalReference(
             $restCompaniesRequestAttributesTransfer->getExternalReference()
         );
 
@@ -84,5 +84,15 @@ class CompanyReader implements CompanyReaderInterface
             ->addError($restCompaniesErrorTransfer);
 
         return $restCompaniesResponseTransfer;
+    }
+
+    /**
+     * @param string $externalReference
+     *
+     * @return \Generated\Shared\Transfer\CompanyTransfer|null
+     */
+    public function findByExternalReference(string $externalReference): ?CompanyTransfer
+    {
+        return $this->companiesRestApiRepository->findCompanyByExternalReference($externalReference);
     }
 }
