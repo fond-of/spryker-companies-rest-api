@@ -2,7 +2,9 @@
 
 namespace FondOfSpryker\Shared\CompaniesRestApi;
 
-class CompaniesRestApiConfig
+use Spryker\Shared\Kernel\AbstractBundleConfig;
+
+class CompaniesRestApiConfig extends AbstractBundleConfig
 {
     public const RESPONSE_CODE_COMPANY_DATA_INVALID = '900';
     public const RESPONSE_CODE_COMPANY_FAILED_TO_SAVE = '901';
