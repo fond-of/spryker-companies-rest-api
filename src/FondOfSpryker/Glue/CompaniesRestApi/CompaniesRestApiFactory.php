@@ -9,15 +9,12 @@ use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesWriterInter
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Validation\RestApiError;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Validation\RestApiErrorInterface;
 use Spryker\Glue\Kernel\AbstractFactory;
-use Spryker\Yves\Kernel\ClientResolverAwareTrait;
 
 /**
  * @method \FondOfSpryker\Client\CompaniesRestApi\CompaniesRestApiClientInterface getClient()
  */
 class CompaniesRestApiFactory extends AbstractFactory
 {
-    use ClientResolverAwareTrait;
-
     /**
      * @return \FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesReaderInterface
      */
