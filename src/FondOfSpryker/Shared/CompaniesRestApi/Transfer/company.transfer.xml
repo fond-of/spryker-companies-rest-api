@@ -5,5 +5,6 @@
 
     <transfer name="Company">
         <property name="externalReference" type="string"/>
+        <property name="uuid" type="string"/>
     </transfer>
 </transfers>
