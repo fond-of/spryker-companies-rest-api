@@ -2,8 +2,12 @@
 
 namespace FondOfSpryker\Glue\CompaniesRestApi;
 
+use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesMapper;
+use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesMapperInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesReader;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesReaderInterface;
+use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesResourceRelationshipExpander;
+use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesResourceRelationshipExpanderInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesWriter;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesWriterInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Validation\RestApiError;
@@ -38,6 +42,22 @@ class CompaniesRestApiFactory extends AbstractFactory
             $this->createRestApiError(),
             $this->createCompaniesReader()
         );
+    }
+
+    /**
+     * @return \FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesMapperInterface
+     */
+    public function createCompaniesMapper(): CompaniesMapperInterface
+    {
+        return new CompaniesMapper();
+    }
+
+    /**
+     * @return \FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesResourceRelationshipExpanderInterface
+     */
+    public function createCompaniesResourceRelationshipExpander(): CompaniesResourceRelationshipExpanderInterface
+    {
+        return new CompaniesResourceRelationshipExpander($this->getResourceBuilder(), $this->createCompaniesMapper());
     }
 
     /**

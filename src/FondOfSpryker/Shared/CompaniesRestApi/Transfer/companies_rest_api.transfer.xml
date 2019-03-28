@@ -11,11 +11,15 @@
     <transfer name="RestCompaniesRequestAttributes">
         <property name="name" type="string" />
         <property name="externalReference" type="string" />
+        <property name="isActive" type="bool"/>
+        <property name="status" type="string"/>
     </transfer>
 
     <transfer name="RestCompaniesResponseAttributes">
         <property name="name" type="string" />
         <property name="externalReference" type="string" />
+        <property name="isActive" type="bool"/>
+        <property name="status" type="string"/>
     </transfer>
 
     <transfer name="RestCompaniesError">
