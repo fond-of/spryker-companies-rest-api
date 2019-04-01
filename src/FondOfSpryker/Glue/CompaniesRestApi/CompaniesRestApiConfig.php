@@ -2,7 +2,9 @@
 
 namespace FondOfSpryker\Glue\CompaniesRestApi;
 
-class CompaniesRestApiConfig
+use Spryker\Glue\Kernel\AbstractBundleConfig;
+
+class CompaniesRestApiConfig extends AbstractBundleConfig
 {
     public const RESOURCE_COMPANIES = 'companies';
 
