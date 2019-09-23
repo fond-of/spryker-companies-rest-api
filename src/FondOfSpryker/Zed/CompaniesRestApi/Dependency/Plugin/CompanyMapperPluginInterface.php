@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FondOfSpryker\Zed\CompaniesRestApi\Dependency\Plugin;
 
 use Generated\Shared\Transfer\CompanyTransfer;
@@ -16,7 +18,7 @@ interface CompanyMapperPluginInterface
      * @param \Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
      * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
      *
-     * @return void
+     * @return \Generated\Shared\Transfer\CompanyTransfer
      */
     public function map(
         RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer,

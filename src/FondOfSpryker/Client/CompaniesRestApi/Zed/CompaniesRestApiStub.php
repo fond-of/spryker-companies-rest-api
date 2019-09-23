@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FondOfSpryker\Client\CompaniesRestApi\Zed;
 
 use FondOfSpryker\Client\CompaniesRestApi\Dependency\Client\CompaniesRestApiToZedRequestClientInterface;
-use Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseTransfer;
 
@@ -20,40 +21,6 @@ class CompaniesRestApiStub implements CompaniesRestApiStubInterface
     public function __construct(CompaniesRestApiToZedRequestClientInterface $zedRequestClient)
     {
         $this->zedRequestClient = $zedRequestClient;
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestCompaniesResponseTransfer
-     */
-    public function findCompanyByExternalReference(
-        RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
-    ): RestCompaniesResponseTransfer {
-        /** @var \Generated\Shared\Transfer\RestCompaniesResponseTransfer $restCompaniesResponseTransfer */
-        $restCompaniesResponseTransfer = $this->zedRequestClient->call(
-            '/companies-rest-api/gateway/find-company-by-external-reference',
-            $restCompaniesRequestAttributesTransfer
-        );
-
-        return $restCompaniesResponseTransfer;
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestCompaniesResponseTransfer
-     */
-    public function create(RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
-    ): RestCompaniesResponseTransfer
-    {
-        /** @var \Generated\Shared\Transfer\RestCompaniesResponseTransfer $restCompaniesResponseTransfer */
-        $restCompaniesResponseTransfer = $this->zedRequestClient->call(
-            '/companies-rest-api/gateway/create',
-            $restCompaniesRequestAttributesTransfer
-        );
-
-        return $restCompaniesResponseTransfer;
     }
 
     /**

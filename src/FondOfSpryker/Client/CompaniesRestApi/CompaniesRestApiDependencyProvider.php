@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FondOfSpryker\Client\CompaniesRestApi;
 
 use FondOfSpryker\Client\CompaniesRestApi\Dependency\Client\CompaniesRestApiToZedRequestClientBridge;
@@ -29,7 +31,7 @@ class CompaniesRestApiDependencyProvider extends AbstractDependencyProvider
      */
     protected function addZedRequestClient(Container $container): Container
     {
-        $container[static::CLIENT_ZED_REQUEST] = function (Container $container) {
+        $container[static::CLIENT_ZED_REQUEST] = static function (Container $container) {
             return new CompaniesRestApiToZedRequestClientBridge($container->getLocator()->zedRequest()->client());
         };
 

@@ -1,6 +1,8 @@
 <?php
 
-namespace FondOfSpryker\Zed\CompaniesRestApi\Business\Company;
+declare(strict_types=1);
+
+namespace FondOfSpryker\Zed\CompaniesRestApi\Business\Mapper;
 
 use Generated\Shared\Transfer\CompanyTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer;
@@ -17,12 +19,6 @@ class CompanyMapper implements CompanyMapperInterface
         RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer,
         CompanyTransfer $companyTransfer
     ): CompanyTransfer {
-        if ($restCompaniesRequestAttributesTransfer->getExternalReference() !== null) {
-            $companyTransfer->setExternalReference(
-                $restCompaniesRequestAttributesTransfer->getExternalReference()
-            );
-        }
-
         if ($restCompaniesRequestAttributesTransfer->getName() !== null) {
             $companyTransfer->setName($restCompaniesRequestAttributesTransfer->getName());
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FondOfSpryker\Zed\CompaniesRestApi\Communication\Plugin\CompaniesRestApi;
 
 use FondOfSpryker\Zed\CompaniesRestApi\Dependency\Plugin\CompanyMapperPluginInterface;
@@ -27,6 +29,7 @@ class CompanyMapperPlugin extends AbstractPlugin implements CompanyMapperPluginI
         RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer,
         CompanyTransfer $companyTransfer
     ): CompanyTransfer {
-        return $this->getFacade()->mapToCompany($restCompaniesRequestAttributesTransfer, $companyTransfer);
+        return $this->getFacade()
+            ->mapToCompany($restCompaniesRequestAttributesTransfer, $companyTransfer);
     }
 }

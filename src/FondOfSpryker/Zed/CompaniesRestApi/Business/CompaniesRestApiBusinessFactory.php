@@ -1,39 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FondOfSpryker\Zed\CompaniesRestApi\Business;
 
-use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyMapper;
-use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyMapperInterface;
-use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyReader;
-use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyReaderInterface;
+use FondOfSpryker\Zed\CompaniesRestApi\Business\Mapper\CompanyMapper;
+use FondOfSpryker\Zed\CompaniesRestApi\Business\Mapper\CompanyMapperInterface;
 use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyWriter;
 use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyWriterInterface;
 use FondOfSpryker\Zed\CompaniesRestApi\CompaniesRestApiDependencyProvider;
-use FondOfSpryker\Zed\CompaniesRestApi\Dependency\Facade\CompaniesRestApiToCompanyFacadeInterface;
+use Spryker\Zed\Company\Business\CompanyFacadeInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
-/**
- * @method \FondOfSpryker\Zed\CompaniesRestApi\Persistence\CompaniesRestApiRepositoryInterface getRepository()
- */
 class CompaniesRestApiBusinessFactory extends AbstractBusinessFactory
 {
-    /**
-     * @return \FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyReaderInterface
-     */
-    public function createCompanyReader(): CompanyReaderInterface
-    {
-        return new CompanyReader(
-            $this->getRepository()
-        );
-    }
-
     /**
      * @return \FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyWriterInterface
      */
     public function createCompanyWriter(): CompanyWriterInterface
     {
         return new CompanyWriter(
-            $this->getRepository(),
             $this->getCompanyFacade(),
             $this->getCompanyMapperPlugins()
         );
@@ -48,18 +34,18 @@ class CompaniesRestApiBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \FondOfSpryker\Zed\CompaniesRestApi\Dependency\Facade\CompaniesRestApiToCompanyFacadeInterface
-     */
-    protected function getCompanyFacade(): CompaniesRestApiToCompanyFacadeInterface
-    {
-        return $this->getProvidedDependency(CompaniesRestApiDependencyProvider::FACADE_COMPANY);
-    }
-
-    /**
-     * @return \FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyMapperInterface
+     * @return \FondOfSpryker\Zed\CompaniesRestApi\Business\Mapper\CompanyMapperInterface
      */
     public function createCompanyMapper(): CompanyMapperInterface
     {
         return new CompanyMapper();
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface
+     */
+    protected function getCompanyFacade(): CompanyFacadeInterface
+    {
+        return $this->getProvidedDependency(CompaniesRestApiDependencyProvider::FACADE_COMPANY);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FondOfSpryker\Client\CompaniesRestApi\Dependency\Client;
 
 use Spryker\Shared\Kernel\Transfer\TransferInterface;

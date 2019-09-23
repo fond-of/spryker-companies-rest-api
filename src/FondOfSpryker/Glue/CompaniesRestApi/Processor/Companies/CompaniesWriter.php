@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies;
 
 use FondOfSpryker\Client\CompaniesRestApi\CompaniesRestApiClientInterface;
@@ -7,6 +9,7 @@ use FondOfSpryker\Glue\CompaniesRestApi\CompaniesRestApiConfig;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Validation\RestApiErrorInterface;
 use Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestTransfer;
+use Generated\Shared\Transfer\RestCompaniesResponseAttributesTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseTransfer;
 use Generated\Shared\Transfer\RestErrorMessageTransfer;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface;
@@ -59,27 +62,6 @@ class CompaniesWriter implements CompaniesWriterInterface
      *
      * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
      */
-    public function createCompany(
-        RestRequestInterface $restRequest,
-        RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
-    ): RestResponseInterface {
-        $restCompaniesResponseTransfer = $this->companiesRestApiClient->create(
-            $restCompaniesRequestAttributesTransfer
-        );
-
-        if (!$restCompaniesResponseTransfer->getIsSuccess()) {
-            return $this->createSaveCompanyFailedErrorResponse($restCompaniesResponseTransfer);
-        }
-
-        return $this->createCompanySavedResponse($restCompaniesResponseTransfer);
-    }
-
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function updateCompany(
         RestRequestInterface $restRequest,
         RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
@@ -87,11 +69,11 @@ class CompaniesWriter implements CompaniesWriterInterface
         $restResponse = $this->restResourceBuilder->createRestResponse();
 
         if (!$restRequest->getResource()->getId()) {
-            return $this->restApiError->addExternalReferenceMissingError($restResponse);
+            return $this->restApiError->addCompanyUuidMissingError($restResponse);
         }
 
         $restCompaniesRequestTransfer = new RestCompaniesRequestTransfer();
-        $restCompaniesRequestTransfer->setId($restRequest->getResource()->getId())
+        $restCompaniesRequestTransfer->setUuid($restRequest->getResource()->getId())
             ->setRestCompaniesRequestAttributes($restCompaniesRequestAttributesTransfer);
 
         $restCompaniesResponseTransfer = $this->companiesRestApiClient->update(
@@ -102,22 +84,22 @@ class CompaniesWriter implements CompaniesWriterInterface
             return $this->createSaveCompanyFailedErrorResponse($restCompaniesResponseTransfer);
         }
 
-        return $this->createCompanySavedResponse($restCompaniesResponseTransfer);
+        return $this->createCompanySavedResponse(
+            $restCompaniesResponseTransfer->getRestCompaniesResponseAttributes()
+        );
     }
 
     /**
-     * @param \Generated\Shared\Transfer\RestCompaniesResponseTransfer $restCompaniesResponseTransfer
+     * @param \Generated\Shared\Transfer\RestCompaniesResponseAttributesTransfer $restCompaniesResponseAttributesTransfer
      *
      * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
      */
     protected function createCompanySavedResponse(
-        RestCompaniesResponseTransfer $restCompaniesResponseTransfer
+        RestCompaniesResponseAttributesTransfer $restCompaniesResponseAttributesTransfer
     ): RestResponseInterface {
-        $restCompaniesResponseAttributesTransfer = $restCompaniesResponseTransfer->getRestCompaniesResponseAttributes();
-
         $restResource = $this->restResourceBuilder->createRestResource(
             CompaniesRestApiConfig::RESOURCE_COMPANIES,
-            $restCompaniesResponseAttributesTransfer->getExternalReference(),
+            $restCompaniesResponseAttributesTransfer->getUuid(),
             $restCompaniesResponseAttributesTransfer
         );
 

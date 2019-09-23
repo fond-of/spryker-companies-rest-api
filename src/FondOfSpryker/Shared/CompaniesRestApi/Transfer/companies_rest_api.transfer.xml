@@ -16,9 +16,8 @@
         <property name="uuid" type="string"/>
     </transfer>
 
-
     <transfer name="RestCompaniesRequest">
-        <property name="id" type="string" />
+        <property name="uuid" type="string" />
         <property name="restCompaniesRequestAttributes" type="RestCompaniesRequestAttributes" />
     </transfer>
 

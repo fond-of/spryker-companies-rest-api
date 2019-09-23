@@ -1,28 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FondOfSpryker\Zed\CompaniesRestApi\Business\Company;
 
 use FondOfSpryker\Shared\CompaniesRestApi\CompaniesRestApiConfig;
-use FondOfSpryker\Zed\CompaniesRestApi\Dependency\Facade\CompaniesRestApiToCompanyFacadeInterface;
-use FondOfSpryker\Zed\CompaniesRestApi\Persistence\CompaniesRestApiRepositoryInterface;
 use Generated\Shared\Transfer\CompanyTransfer;
 use Generated\Shared\Transfer\RestCompaniesErrorTransfer;
-use Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseAttributesTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseTransfer;
 use Propel\Runtime\Exception\PropelException;
+use Spryker\Zed\Company\Business\CompanyFacadeInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class CompanyWriter implements CompanyWriterInterface
 {
     /**
-     * @var \FondOfSpryker\Zed\CompaniesRestApi\Persistence\CompaniesRestApiRepositoryInterface
-     */
-    protected $companiesRestApiRepository;
-
-    /**
-     * @var \FondOfSpryker\Zed\CompaniesRestApi\Dependency\Facade\CompaniesRestApiToCompanyFacadeInterface
+     * @var \Spryker\Zed\Company\Business\CompanyFacadeInterface
      */
     protected $companyFacade;
 
@@ -32,50 +27,15 @@ class CompanyWriter implements CompanyWriterInterface
     protected $companyMapperPlugins;
 
     /**
-     * @param \FondOfSpryker\Zed\CompaniesRestApi\Persistence\CompaniesRestApiRepositoryInterface $companiesRestApiRepository
-     * @param \FondOfSpryker\Zed\CompaniesRestApi\Dependency\Facade\CompaniesRestApiToCompanyFacadeInterface $companyFacade
+     * @param \Spryker\Zed\Company\Business\CompanyFacadeInterface $companyFacade
      * @param array $companyMapperPlugins
      */
     public function __construct(
-        CompaniesRestApiRepositoryInterface $companiesRestApiRepository,
-        CompaniesRestApiToCompanyFacadeInterface $companyFacade,
+        CompanyFacadeInterface $companyFacade,
         array $companyMapperPlugins
     ) {
-        $this->companiesRestApiRepository = $companiesRestApiRepository;
         $this->companyFacade = $companyFacade;
         $this->companyMapperPlugins = $companyMapperPlugins;
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestCompaniesResponseTransfer
-     */
-    public function create(
-        RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
-    ): RestCompaniesResponseTransfer {
-        $companyTransfer = new CompanyTransfer();
-
-        foreach ($this->companyMapperPlugins as $companyMapperPlugin) {
-            $companyTransfer = $companyMapperPlugin->map(
-                $restCompaniesRequestAttributesTransfer,
-                $companyTransfer
-            );
-        }
-
-        try {
-            $companyResponseTransfer = $this->companyFacade->create($companyTransfer);
-        } catch (PropelException $e) {
-            return $this->createCompanyDataInvalidErrorResponse();
-        }
-
-        if (!$companyResponseTransfer->getIsSuccessful()) {
-            return $this->createCompanyDataInvalidErrorResponse();
-        }
-
-        return $this->createCompanyResponseTransfer(
-            $companyResponseTransfer->getCompanyTransfer()
-        );
     }
 
     /**
@@ -85,12 +45,17 @@ class CompanyWriter implements CompanyWriterInterface
      */
     public function update(RestCompaniesRequestTransfer $restCompaniesRequestTransfer): RestCompaniesResponseTransfer
     {
-        $companyTransfer = $this->companiesRestApiRepository
-            ->findCompanyByExternalReference($restCompaniesRequestTransfer->getId());
+        $filterCompanyTransfer = (new CompanyTransfer())
+            ->setUuid($restCompaniesRequestTransfer->getUuid());
 
-        if ($companyTransfer === null) {
+        $companyResponseTransfer = $this->companyFacade
+            ->findCompanyByUuid($filterCompanyTransfer);
+
+        if (!$companyResponseTransfer->getIsSuccessful()) {
             return $this->createCompanyFailedToLoadErrorResponseTransfer();
         }
+
+        $companyTransfer = $companyResponseTransfer->getCompanyTransfer();
 
         foreach ($this->companyMapperPlugins as $companyMapperPlugin) {
             $companyTransfer = $companyMapperPlugin->map(

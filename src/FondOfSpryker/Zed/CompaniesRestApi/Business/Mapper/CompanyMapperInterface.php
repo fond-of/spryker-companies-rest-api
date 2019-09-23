@@ -1,6 +1,8 @@
 <?php
 
-namespace FondOfSpryker\Zed\CompaniesRestApi\Business\Company;
+declare(strict_types=1);
+
+namespace FondOfSpryker\Zed\CompaniesRestApi\Business\Mapper;
 
 use Generated\Shared\Transfer\CompanyTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer;
