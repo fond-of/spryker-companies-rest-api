@@ -1,6 +1,8 @@
 <?php
 
-namespace FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies;
+declare(strict_types=1);
+
+namespace FondOfSpryker\Glue\CompaniesRestApi\Processor\Mapper;
 
 use Generated\Shared\Transfer\CompanyTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseAttributesTransfer;
@@ -13,7 +15,7 @@ interface CompaniesMapperInterface
      *
      * @return \Generated\Shared\Transfer\RestCompaniesResponseAttributesTransfer
      */
-    public function mapCompanyTransferToRestCompaniesResponseAttributesTransfer(
+    public function mapCompanyTransferToRestCompanyResponseAttributesTransfer(
         CompanyTransfer $companyTransfer,
         RestCompaniesResponseAttributesTransfer $restCompaniesResponseAttributesTransfer
     ): RestCompaniesResponseAttributesTransfer;

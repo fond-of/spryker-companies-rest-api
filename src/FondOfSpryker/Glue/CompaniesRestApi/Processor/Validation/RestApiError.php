@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FondOfSpryker\Glue\CompaniesRestApi\Processor\Validation;
 
 use FondOfSpryker\Glue\CompaniesRestApi\CompaniesRestApiConfig;
@@ -14,12 +16,27 @@ class RestApiError implements RestApiErrorInterface
      *
      * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
      */
-    public function addExternalReferenceMissingError(RestResponseInterface $restResponse): RestResponseInterface
+    public function addCompanyUuidMissingError(RestResponseInterface $restResponse): RestResponseInterface
     {
         $restErrorTransfer = (new RestErrorMessageTransfer())
             ->setCode(CompaniesRestApiConfig::RESPONSE_CODE_EXTERNAL_REFERENCE_MISSING)
             ->setStatus(Response::HTTP_BAD_REQUEST)
             ->setDetail(CompaniesRestApiConfig::RESPONSE_DETAILS_EXTERNAL_REFERENCE_MISSING);
+
+        return $restResponse->addError($restErrorTransfer);
+    }
+
+    /**
+     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
+     *
+     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
+     */
+    public function addCompanyNotFoundError(RestResponseInterface $restResponse): RestResponseInterface
+    {
+        $restErrorTransfer = (new RestErrorMessageTransfer())
+            ->setCode(CompaniesRestApiConfig::RESPONSE_CODE_COMPANY_NOT_FOUND)
+            ->setStatus(Response::HTTP_NOT_FOUND)
+            ->setDetail(CompaniesRestApiConfig::RESPONSE_DETAIL_COMPANY_NOT_FOUND);
 
         return $restResponse->addError($restErrorTransfer);
     }

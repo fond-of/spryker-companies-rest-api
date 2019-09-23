@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies;
 
 use FondOfSpryker\Glue\CompaniesRestApi\CompaniesRestApiConfig;
+use FondOfSpryker\Glue\CompaniesRestApi\Processor\Mapper\CompaniesMapperInterface;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseAttributesTransfer;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface;
@@ -16,13 +19,13 @@ class CompaniesResourceRelationshipExpander implements CompaniesResourceRelation
     protected $restResourceBuilder;
 
     /**
-     * @var \FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesMapperInterface
+     * @var \FondOfSpryker\Glue\CompaniesRestApi\Processor\Mapper\CompaniesMapperInterface
      */
     protected $companiesMapper;
 
     /**
      * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface $restResourceBuilder
-     * @param \FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesMapperInterface $companiesMapper
+     * @param \FondOfSpryker\Glue\CompaniesRestApi\Processor\Mapper\CompaniesMapperInterface $companiesMapper
      */
     public function __construct(
         RestResourceBuilderInterface $restResourceBuilder,
@@ -57,7 +60,7 @@ class CompaniesResourceRelationshipExpander implements CompaniesResourceRelation
             }
 
             $restCompanyAttributesTransfer = $this->companiesMapper
-                ->mapCompanyTransferToRestCompaniesResponseAttributesTransfer(
+                ->mapCompanyTransferToRestCompanyResponseAttributesTransfer(
                     $companyTransfer,
                     new RestCompaniesResponseAttributesTransfer()
                 );

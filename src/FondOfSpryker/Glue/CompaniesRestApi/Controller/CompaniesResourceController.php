@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FondOfSpryker\Glue\CompaniesRestApi\Controller;
 
 use Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer;
@@ -19,22 +21,9 @@ class CompaniesResourceController extends AbstractController
      */
     public function getAction(RestRequestInterface $restRequest): RestResponseInterface
     {
-        return $this->getFactory()->createCompaniesReader()
-            ->findCompanyByExternalReference($restRequest);
-    }
-
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
-    public function postAction(
-        RestRequestInterface $restRequest,
-        RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
-    ): RestResponseInterface {
-        return $this->getFactory()->createCompaniesWriter()
-            ->createCompany($restRequest, $restCompaniesRequestAttributesTransfer);
+        return $this->getFactory()
+            ->createCompaniesReader()
+            ->findCompanyByUuid($restRequest);
     }
 
     /**
@@ -47,7 +36,8 @@ class CompaniesResourceController extends AbstractController
         RestRequestInterface $restRequest,
         RestCompaniesRequestAttributesTransfer $restCompaniesRequestAttributesTransfer
     ): RestResponseInterface {
-        return $this->getFactory()->createCompaniesWriter()
+        return $this->getFactory()
+            ->createCompaniesWriter()
             ->updateCompany($restRequest, $restCompaniesRequestAttributesTransfer);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FondOfSpryker\Glue\CompaniesRestApi\Plugin;
 
 use FondOfSpryker\Glue\CompaniesRestApi\CompaniesRestApiConfig;
@@ -13,11 +15,8 @@ use Spryker\Glue\Kernel\AbstractPlugin;
 class CompaniesCompanyUsersResourceRelationshipPlugin extends AbstractPlugin implements ResourceRelationshipPluginInterface
 {
     /**
-     * {@inheritdoc}
      *  - Adds company resource as relationship.
      *  - Requires CompanyUserTransfer be provided in resource payload.
-     *
-     * @api
      *
      * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface[] $resources
      * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
@@ -32,10 +31,6 @@ class CompaniesCompanyUsersResourceRelationshipPlugin extends AbstractPlugin imp
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @api
-     *
      * @return string
      */
     public function getRelationshipResourceType(): string

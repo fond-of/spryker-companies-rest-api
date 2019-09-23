@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies;
 
 use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface;
