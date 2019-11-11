@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace FondOfSpryker\Glue\CompaniesRestApi\Plugin;
 
@@ -17,8 +17,7 @@ class CompaniesResourceRoutePlugin extends AbstractPlugin implements ResourceRou
      *
      * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRouteCollectionInterface
      */
-    public function configure(ResourceRouteCollectionInterface $resourceRouteCollection
-    ): ResourceRouteCollectionInterface
+    public function configure(ResourceRouteCollectionInterface $resourceRouteCollection): ResourceRouteCollectionInterface
     {
         return $resourceRouteCollection
             ->addGet('get')

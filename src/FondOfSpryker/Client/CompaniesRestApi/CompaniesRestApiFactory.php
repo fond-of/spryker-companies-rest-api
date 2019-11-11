@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace FondOfSpryker\Client\CompaniesRestApi;
 
@@ -20,6 +20,8 @@ class CompaniesRestApiFactory extends AbstractFactory
     }
 
     /**
+     * @throws
+     *
      * @return \FondOfSpryker\Client\CompaniesRestApi\Dependency\Client\CompaniesRestApiToZedRequestClientInterface
      */
     protected function getZedRequestClient(): CompaniesRestApiToZedRequestClientInterface

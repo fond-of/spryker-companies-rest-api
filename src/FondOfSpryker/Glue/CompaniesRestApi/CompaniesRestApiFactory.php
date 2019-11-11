@@ -1,17 +1,17 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace FondOfSpryker\Glue\CompaniesRestApi;
 
-use FondOfSpryker\Glue\CompaniesRestApi\Processor\Mapper\CompaniesMapper;
-use FondOfSpryker\Glue\CompaniesRestApi\Processor\Mapper\CompaniesMapperInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesReader;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesReaderInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesResourceRelationshipExpander;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesResourceRelationshipExpanderInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesWriter;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesWriterInterface;
+use FondOfSpryker\Glue\CompaniesRestApi\Processor\Mapper\CompaniesMapper;
+use FondOfSpryker\Glue\CompaniesRestApi\Processor\Mapper\CompaniesMapperInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Validation\RestApiError;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Validation\RestApiErrorInterface;
 use Spryker\Client\Company\CompanyClientInterface;
@@ -64,7 +64,6 @@ class CompaniesRestApiFactory extends AbstractFactory
         return new RestApiError();
     }
 
-
     /**
      * @return \FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesResourceRelationshipExpanderInterface
      */
@@ -74,6 +73,8 @@ class CompaniesRestApiFactory extends AbstractFactory
     }
 
     /**
+     * @throws
+     *
      * @return \Spryker\Client\Company\CompanyClientInterface
      */
     public function getCompanyClient(): CompanyClientInterface

@@ -14,11 +14,13 @@
   ],
   "require": {
     "php": ">=7.1",
+    "spryker/glue-application": "^1.0.0",
     "spryker/company": "^1.0.0"
   },
   "require-dev": {
     "spryker/code-sniffer": "^0.12",
     "codeception/codeception": "^2.4",
+    "fond-of-codeception/spryker": "dev-master",
     "codeception/mockery-module": "^0.2",
     "mikey179/vfsstream": "^1.6",
     "phpro/grumphp": "^0.14",
@@ -34,7 +36,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "FondOfSpryker\\": "tests/FondOfSpryker/"
+      "FondOfSpryker\\": "tests/FondOfSpryker/",
+      "Generated\\": "src/Generated/"
     }
   }
 }
