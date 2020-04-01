@@ -73,8 +73,6 @@ class CompaniesRestApiFactory extends AbstractFactory
     }
 
     /**
-     * @throws
-     *
      * @return \Spryker\Client\Company\CompanyClientInterface
      */
     public function getCompanyClient(): CompanyClientInterface

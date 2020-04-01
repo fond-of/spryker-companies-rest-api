@@ -26,8 +26,6 @@ class CompaniesRestApiBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @throws
-     *
      * @return \FondOfSpryker\Zed\CompaniesRestApi\Dependency\Plugin\CompanyMapperPluginInterface[]
      */
     protected function getCompanyMapperPlugins(): array
@@ -44,8 +42,6 @@ class CompaniesRestApiBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @throws
-     *
      * @return \Spryker\Zed\Company\Business\CompanyFacadeInterface
      */
     protected function getCompanyFacade(): CompanyFacadeInterface
