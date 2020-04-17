@@ -62,7 +62,7 @@ class CompaniesWriterTest extends Unit
     protected $restResourceInterfaceMock;
 
     /**
-     * @var int
+     * @var string
      */
     protected $id;
 
@@ -145,13 +145,13 @@ class CompaniesWriterTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->id = 1;
+        $this->id = 'd6d98b88-c866-4496-9bd4-de7ba48d0f52';
 
         $this->restCompaniesResponseTransferMock = $this->getMockBuilder(RestCompaniesResponseTransfer::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->uuid = 'uuid';
+        $this->uuid = '29fa7bf9-0728-4272-a7bc-5b7c964f332d';
 
         $this->restCompaniesResponseAttributesTransferMock = $this->getMockBuilder(RestCompaniesResponseAttributesTransfer::class)
             ->disableOriginalConstructor()
