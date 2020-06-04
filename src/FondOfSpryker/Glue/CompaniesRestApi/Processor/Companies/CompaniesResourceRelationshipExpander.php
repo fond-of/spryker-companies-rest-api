@@ -73,6 +73,7 @@ class CompaniesResourceRelationshipExpander implements CompaniesResourceRelation
 
             $resource->addRelationship($companyResource);
         }
+
         return $resources;
     }
 }
