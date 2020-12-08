@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace FondOfSpryker\Glue\CompaniesRestApi;
 
+use FondOfSpryker\Glue\CompaniesRestApi\Dependency\CompaniesRestApiToCompanyClientBridge;
 use Spryker\Glue\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Glue\Kernel\Container;
 
@@ -32,7 +33,7 @@ class CompaniesRestApiDependencyProvider extends AbstractBundleDependencyProvide
     protected function addCompanyClient(Container $container): Container
     {
         $container[static::CLIENT_COMPANY] = static function (Container $container) {
-            return $container->getLocator()->company()->client();
+            return new CompaniesRestApiToCompanyClientBridge($container->getLocator()->company()->client());
         };
 
         return $container;

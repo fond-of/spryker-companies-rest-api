@@ -13,7 +13,9 @@ class CompaniesRestApiConfig extends AbstractBundleConfig
 
     public const RESPONSE_CODE_EXTERNAL_REFERENCE_MISSING = '800';
     public const RESPONSE_CODE_COMPANY_NOT_FOUND = '801';
+    public const RESPONSE_CODE_NO_PERMISSION = '802';
 
     public const RESPONSE_DETAILS_EXTERNAL_REFERENCE_MISSING = 'External reference is missing.';
     public const RESPONSE_DETAIL_COMPANY_NOT_FOUND = 'Company not found.';
+    public const RESPONSE_DETAIL_NO_PERMISSION = 'No Permission for Company.';
 }
