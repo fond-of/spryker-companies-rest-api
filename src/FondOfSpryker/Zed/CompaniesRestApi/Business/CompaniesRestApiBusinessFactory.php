@@ -33,7 +33,7 @@ class CompaniesRestApiBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyPermissionInterface
      */
-    public function createCompanyChecker(): CompanyPermissionInterface
+    public function createCompanyPermission(): CompanyPermissionInterface
     {
         return new CompanyPermission(
             $this->getRepository()

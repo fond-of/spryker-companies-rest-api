@@ -67,7 +67,7 @@ class CompaniesRestApiFacade extends AbstractFacade implements CompaniesRestApiF
         RestCompaniesRequestTransfer $restCompaniesRequestTransfer
     ): RestCompaniesPermissionResponseTransfer {
         return $this->getFactory()
-            ->createCompanyChecker()
+            ->createCompanyPermission()
             ->checkPermission($restCompaniesRequestTransfer);
     }
 }

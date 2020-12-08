@@ -4,6 +4,7 @@ namespace FondOfSpryker\Client\CompaniesRestApi\Zed;
 
 use Codeception\Test\Unit;
 use FondOfSpryker\Client\CompaniesRestApi\Dependency\Client\CompaniesRestApiToZedRequestClientInterface;
+use Generated\Shared\Transfer\RestCompaniesPermissionResponseTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseTransfer;
 
@@ -30,6 +31,11 @@ class CompaniesRestApiStubTest extends Unit
     protected $restCompaniesResponseTransferMock;
 
     /**
+     * @var \Generated\Shared\Transfer\RestCompaniesPermissionResponseTransfer|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $restCompaniesPermissionResponseTransferMock;
+
+    /**
      * @return void
      */
     protected function _before(): void
@@ -45,6 +51,10 @@ class CompaniesRestApiStubTest extends Unit
             ->getMock();
 
         $this->restCompaniesResponseTransferMock = $this->getMockBuilder(RestCompaniesResponseTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->restCompaniesPermissionResponseTransferMock = $this->getMockBuilder(RestCompaniesPermissionResponseTransfer::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -65,6 +75,23 @@ class CompaniesRestApiStubTest extends Unit
         $this->assertInstanceOf(
             RestCompaniesResponseTransfer::class,
             $this->companiesRestApiStub->update(
+                $this->restCompaniesRequestTransferMock
+            )
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testCheckPermission(): void
+    {
+        $this->zedRequestClientMock->expects($this->atLeastOnce())
+            ->method('call')
+            ->willReturn($this->restCompaniesPermissionResponseTransferMock);
+
+        $this->assertInstanceOf(
+            RestCompaniesPermissionResponseTransfer::class,
+            $this->companiesRestApiStub->checkPermission(
                 $this->restCompaniesRequestTransferMock
             )
         );
