@@ -20,7 +20,7 @@
   "require-dev": {
     "spryker/code-sniffer": "^0.12",
     "codeception/codeception": "^2.4",
-    "fond-of-codeception/spryker": "dev-master",
+    "fond-of-codeception/spryker": "^1.0",
     "codeception/mockery-module": "^0.2",
     "mikey179/vfsstream": "^1.6",
     "phpro/grumphp": "^0.14",
