@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace FondOfSpryker\Zed\CompaniesRestApi\Business;
 
 use Generated\Shared\Transfer\CompanyTransfer;
+use Generated\Shared\Transfer\RestCompaniesPermissionResponseTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseTransfer;
@@ -50,5 +51,23 @@ class CompaniesRestApiFacade extends AbstractFacade implements CompaniesRestApiF
         return $this->getFactory()
             ->createCompanyMapper()
             ->mapToCompany($restCompaniesRequestAttributesTransfer, $companyTransfer);
+    }
+
+    /**
+     * Specification:
+     * - Check permission for a company business unit
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\RestCompaniesRequestTransfer $restCompaniesRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\RestCompaniesPermissionResponseTransfer
+     */
+    public function checkPermission(
+        RestCompaniesRequestTransfer $restCompaniesRequestTransfer
+    ): RestCompaniesPermissionResponseTransfer {
+        return $this->getFactory()
+            ->createCompanyPermission()
+            ->checkPermission($restCompaniesRequestTransfer);
     }
 }

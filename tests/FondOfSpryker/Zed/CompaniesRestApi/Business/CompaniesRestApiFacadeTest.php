@@ -3,9 +3,11 @@
 namespace FondOfSpryker\Zed\CompaniesRestApi\Business;
 
 use Codeception\Test\Unit;
+use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyPermissionInterface;
 use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyWriterInterface;
 use FondOfSpryker\Zed\CompaniesRestApi\Business\Mapper\CompanyMapperInterface;
 use Generated\Shared\Transfer\CompanyTransfer;
+use Generated\Shared\Transfer\RestCompaniesPermissionResponseTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseTransfer;
@@ -53,6 +55,16 @@ class CompaniesRestApiFacadeTest extends Unit
     protected $companyMapperInterfaceMock;
 
     /**
+     * @var \FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyPermissionInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $companyPermissionInterfaceMock;
+
+    /**
+     * @var \Generated\Shared\Transfer\RestCompaniesPermissionResponseTransfer|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $restCompaniesPermissionResponseTransferMock;
+
+    /**
      * @return void
      */
     protected function _before(): void
@@ -87,8 +99,38 @@ class CompaniesRestApiFacadeTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->companyPermissionInterfaceMock = $this->getMockBuilder(CompanyPermissionInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->restCompaniesPermissionResponseTransferMock = $this->getMockBuilder(RestCompaniesPermissionResponseTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->companiesRestApiFacade = new CompaniesRestApiFacade();
         $this->companiesRestApiFacade->setFactory($this->companiesRestApiBusinessFactoryMock);
+    }
+
+    /**
+     * @return void
+     */
+    public function testCheckPermission(): void
+    {
+        $this->companiesRestApiBusinessFactoryMock->expects($this->atLeastOnce())
+            ->method('createCompanyPermission')
+            ->willReturn($this->companyPermissionInterfaceMock);
+
+        $this->companyPermissionInterfaceMock->expects($this->atLeastOnce())
+            ->method('checkPermission')
+            ->with($this->restCompaniesRequestTransferMock)
+            ->willReturn($this->restCompaniesPermissionResponseTransferMock);
+
+        $this->assertInstanceOf(
+            RestCompaniesPermissionResponseTransfer::class,
+            $this->companiesRestApiFacade->checkPermission(
+                $this->restCompaniesRequestTransferMock
+            )
+        );
     }
 
     /**

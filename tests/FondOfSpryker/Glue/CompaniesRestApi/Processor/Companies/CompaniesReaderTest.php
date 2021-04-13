@@ -3,12 +3,15 @@
 namespace FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies;
 
 use Codeception\Test\Unit;
+use FondOfSpryker\Client\CompaniesRestApi\CompaniesRestApiClientInterface;
+use FondOfSpryker\Glue\CompaniesRestApi\Dependency\CompaniesRestApiToCompanyClientInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Mapper\CompaniesMapperInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Validation\RestApiErrorInterface;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
 use Generated\Shared\Transfer\CompanyTransfer;
+use Generated\Shared\Transfer\RestCompaniesPermissionResponseTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseAttributesTransfer;
-use Spryker\Client\Company\CompanyClientInterface;
+use Generated\Shared\Transfer\RestUserTransfer;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface;
@@ -32,7 +35,7 @@ class CompaniesReaderTest extends Unit
     protected $restApiErrorInterfaceMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Spryker\Client\Company\CompanyClientInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Glue\CompaniesRestApi\Dependency\CompaniesRestApiToCompanyClientInterface
      */
     protected $companyClientInterfaceMock;
 
@@ -82,6 +85,26 @@ class CompaniesReaderTest extends Unit
     protected $uuid;
 
     /**
+     * @var \Generated\Shared\Transfer\RestUserTransfer|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $restUserTransferMock;
+
+    /**
+     * @var string
+     */
+    protected $naturalIdentifier;
+
+    /**
+     * @var \FondOfSpryker\Client\CompaniesRestApi\CompaniesRestApiClientInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $companiesRestApiClientMock;
+
+    /**
+     * @var \Generated\Shared\Transfer\RestCompaniesPermissionResponseTransfer|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $restCompaniesPermissionResponseTransferMock;
+
+    /**
      * @return void
      */
     protected function _before(): void
@@ -96,7 +119,7 @@ class CompaniesReaderTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyClientInterfaceMock = $this->getMockBuilder(CompanyClientInterface::class)
+        $this->companyClientInterfaceMock = $this->getMockBuilder(CompaniesRestApiToCompanyClientInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -132,11 +155,26 @@ class CompaniesReaderTest extends Unit
 
         $this->uuid = '29fa7bf9-0728-4272-a7bc-5b7c964f332d';
 
+        $this->restUserTransferMock = $this->getMockBuilder(RestUserTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->naturalIdentifier = 'PS--19';
+
+        $this->companiesRestApiClientMock = $this->getMockBuilder(CompaniesRestApiClientInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->restCompaniesPermissionResponseTransferMock = $this->getMockBuilder(RestCompaniesPermissionResponseTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->companiesReader = new CompaniesReader(
             $this->restResourceBuilderInterfaceMock,
             $this->restApiErrorInterfaceMock,
             $this->companyClientInterfaceMock,
-            $this->companiesMapperInterfaceMock
+            $this->companiesMapperInterfaceMock,
+            $this->companiesRestApiClientMock
         );
     }
 
@@ -156,6 +194,22 @@ class CompaniesReaderTest extends Unit
         $this->restResourceInterfaceMock->expects($this->atLeastOnce())
             ->method('getId')
             ->willReturn($this->id);
+
+        $this->restRequestInterfaceMock->expects($this->atLeastOnce())
+            ->method('getRestUser')
+            ->willReturn($this->restUserTransferMock);
+
+        $this->restUserTransferMock->expects($this->atLeastOnce())
+            ->method('getNaturalIdentifier')
+            ->willReturn($this->naturalIdentifier);
+
+        $this->companiesRestApiClientMock->expects($this->atLeastOnce())
+            ->method('checkPermission')
+            ->willReturn($this->restCompaniesPermissionResponseTransferMock);
+
+        $this->restCompaniesPermissionResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getHasPermission')
+            ->willReturn(true);
 
         $this->companyClientInterfaceMock->expects($this->atLeastOnce())
             ->method('findCompanyByUuid')

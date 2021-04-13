@@ -4,12 +4,14 @@ declare(strict_types = 1);
 
 namespace FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies;
 
+use FondOfSpryker\Client\CompaniesRestApi\CompaniesRestApiClientInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\CompaniesRestApiConfig;
+use FondOfSpryker\Glue\CompaniesRestApi\Dependency\CompaniesRestApiToCompanyClientInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Mapper\CompaniesMapperInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Validation\RestApiErrorInterface;
 use Generated\Shared\Transfer\CompanyTransfer;
+use Generated\Shared\Transfer\RestCompaniesRequestTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseAttributesTransfer;
-use Spryker\Client\Company\CompanyClientInterface;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface;
@@ -27,7 +29,7 @@ class CompaniesReader implements CompaniesReaderInterface
     protected $restApiError;
 
     /**
-     * @var \Spryker\Client\Company\CompanyClientInterface
+     * @var \FondOfSpryker\Glue\CompaniesRestApi\Dependency\CompaniesRestApiToCompanyClientInterface
      */
     protected $companyClient;
 
@@ -37,21 +39,29 @@ class CompaniesReader implements CompaniesReaderInterface
     protected $companiesMapper;
 
     /**
+     * @var \FondOfSpryker\Client\CompaniesRestApi\CompaniesRestApiClientInterface
+     */
+    protected $companiesRestApiClient;
+
+    /**
      * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface $restResourceBuilder
      * @param \FondOfSpryker\Glue\CompaniesRestApi\Processor\Validation\RestApiErrorInterface $restApiError
-     * @param \Spryker\Client\Company\CompanyClientInterface $companyClient
+     * @param \FondOfSpryker\Glue\CompaniesRestApi\Dependency\CompaniesRestApiToCompanyClientInterface $companyClient
      * @param \FondOfSpryker\Glue\CompaniesRestApi\Processor\Mapper\CompaniesMapperInterface $companiesMapper
+     * @param \FondOfSpryker\Client\CompaniesRestApi\CompaniesRestApiClientInterface $companiesRestApiClient
      */
     public function __construct(
         RestResourceBuilderInterface $restResourceBuilder,
         RestApiErrorInterface $restApiError,
-        CompanyClientInterface $companyClient,
-        CompaniesMapperInterface $companiesMapper
+        CompaniesRestApiToCompanyClientInterface $companyClient,
+        CompaniesMapperInterface $companiesMapper,
+        CompaniesRestApiClientInterface $companiesRestApiClient
     ) {
         $this->restResourceBuilder = $restResourceBuilder;
         $this->restApiError = $restApiError;
         $this->companyClient = $companyClient;
         $this->companiesMapper = $companiesMapper;
+        $this->companiesRestApiClient = $companiesRestApiClient;
     }
 
     /**
@@ -65,6 +75,16 @@ class CompaniesReader implements CompaniesReaderInterface
 
         if (!$restRequest->getResource()->getId()) {
             return $this->restApiError->addCompanyUuidMissingError($restResponse);
+        }
+
+        $restCompaniesRequestTransfer = (new RestCompaniesRequestTransfer())
+            ->setUuid($restRequest->getResource()->getId())
+            ->setNaturalIdentifier($restRequest->getRestUser()->getNaturalIdentifier());
+
+        $restCompaniesPermissionResponseTransfer = $this->companiesRestApiClient->checkPermission($restCompaniesRequestTransfer);
+
+        if (!$restCompaniesPermissionResponseTransfer->getHasPermission()) {
+            return $this->restApiError->addCompanyNoPermissionError($restResponse);
         }
 
         $companyTransfer = (new CompanyTransfer())

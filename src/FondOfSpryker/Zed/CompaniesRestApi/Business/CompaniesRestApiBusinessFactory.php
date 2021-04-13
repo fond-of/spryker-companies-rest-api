@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace FondOfSpryker\Zed\CompaniesRestApi\Business;
 
+use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyPermission;
+use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyPermissionInterface;
 use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyWriter;
 use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyWriterInterface;
 use FondOfSpryker\Zed\CompaniesRestApi\Business\Mapper\CompanyMapper;
@@ -12,6 +14,9 @@ use FondOfSpryker\Zed\CompaniesRestApi\CompaniesRestApiDependencyProvider;
 use Spryker\Zed\Company\Business\CompanyFacadeInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
+/**
+ * @method \FondOfSpryker\Zed\CompaniesRestApi\Persistence\CompaniesRestApiRepositoryInterface getRepository()
+ */
 class CompaniesRestApiBusinessFactory extends AbstractBusinessFactory
 {
     /**
@@ -22,6 +27,16 @@ class CompaniesRestApiBusinessFactory extends AbstractBusinessFactory
         return new CompanyWriter(
             $this->getCompanyFacade(),
             $this->getCompanyMapperPlugins()
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyPermissionInterface
+     */
+    public function createCompanyPermission(): CompanyPermissionInterface
+    {
+        return new CompanyPermission(
+            $this->getRepository()
         );
     }
 
