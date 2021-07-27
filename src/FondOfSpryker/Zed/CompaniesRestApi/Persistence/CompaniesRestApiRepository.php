@@ -28,6 +28,6 @@ class CompaniesRestApiRepository extends AbstractRepository implements Companies
                 ->endUse()
             ->count();
 
-        return (bool)$companyStoreEntitiesCount;
+        return $companyStoreEntitiesCount > 0;
     }
 }
