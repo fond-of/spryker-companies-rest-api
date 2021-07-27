@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace FondOfSpryker\Client\CompaniesRestApi;
 
+use Generated\Shared\Transfer\RestCompaniesPermissionResponseTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseTransfer;
 use Spryker\Client\Kernel\AbstractClient;
@@ -23,5 +24,17 @@ class CompaniesRestApiClient extends AbstractClient implements CompaniesRestApiC
         return $this->getFactory()
             ->createZedCompaniesRestApiStub()
             ->update($restCompaniesRequestTransfer);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\RestCompaniesRequestTransfer $restCompaniesRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\RestCompaniesPermissionResponseTransfer
+     */
+    public function checkPermission(RestCompaniesRequestTransfer $restCompaniesRequestTransfer): RestCompaniesPermissionResponseTransfer
+    {
+        return $this->getFactory()
+            ->createZedCompaniesRestApiStub()
+            ->checkPermission($restCompaniesRequestTransfer);
     }
 }

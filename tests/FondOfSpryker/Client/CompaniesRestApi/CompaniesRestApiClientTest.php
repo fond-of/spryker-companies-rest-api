@@ -4,6 +4,7 @@ namespace FondOfSpryker\Client\CompaniesRestApi;
 
 use Codeception\Test\Unit;
 use FondOfSpryker\Client\CompaniesRestApi\Zed\CompaniesRestApiStubInterface;
+use Generated\Shared\Transfer\RestCompaniesPermissionResponseTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseTransfer;
 
@@ -35,6 +36,11 @@ class CompaniesRestApiClientTest extends Unit
     protected $restCompaniesResponseTransferMock;
 
     /**
+     * @var \Generated\Shared\Transfer\RestCompaniesPermissionResponseTransfer|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $restCompaniesPermissionResponseTransferMock;
+
+    /**
      * @return void
      */
     protected function _before(): void
@@ -54,6 +60,10 @@ class CompaniesRestApiClientTest extends Unit
             ->getMock();
 
         $this->restCompaniesResponseTransferMock = $this->getMockBuilder(RestCompaniesResponseTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->restCompaniesPermissionResponseTransferMock = $this->getMockBuilder(RestCompaniesPermissionResponseTransfer::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -77,6 +87,27 @@ class CompaniesRestApiClientTest extends Unit
         $this->assertInstanceOf(
             RestCompaniesResponseTransfer::class,
             $this->companiesRestApiClient->update(
+                $this->restCompaniesRequestTransferMock
+            )
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testCheckPermission(): void
+    {
+        $this->companiesRestApiFactoryMock->expects($this->atLeastOnce())
+            ->method('createZedCompaniesRestApiStub')
+            ->willReturn($this->companiesRestApiStubInterfaceMock);
+
+        $this->companiesRestApiStubInterfaceMock->expects($this->atLeastOnce())
+            ->method('checkPermission')
+            ->willReturn($this->restCompaniesPermissionResponseTransferMock);
+
+        $this->assertInstanceOf(
+            RestCompaniesPermissionResponseTransfer::class,
+            $this->companiesRestApiClient->checkPermission(
                 $this->restCompaniesRequestTransferMock
             )
         );

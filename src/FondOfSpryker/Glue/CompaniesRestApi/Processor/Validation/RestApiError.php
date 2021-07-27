@@ -40,4 +40,19 @@ class RestApiError implements RestApiErrorInterface
 
         return $restResponse->addError($restErrorTransfer);
     }
+
+    /**
+     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
+     *
+     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
+     */
+    public function addCompanyNoPermissionError(RestResponseInterface $restResponse): RestResponseInterface
+    {
+        $restErrorTransfer = (new RestErrorMessageTransfer())
+            ->setCode(CompaniesRestApiConfig::RESPONSE_CODE_NO_PERMISSION)
+            ->setStatus(Response::HTTP_BAD_REQUEST)
+            ->setDetail(CompaniesRestApiConfig::RESPONSE_DETAIL_NO_PERMISSION);
+
+        return $restResponse->addError($restErrorTransfer);
+    }
 }

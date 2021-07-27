@@ -9,6 +9,7 @@ use Generated\Shared\Transfer\CompanyTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestAttributesTransfer;
 use Generated\Shared\Transfer\RestCompaniesRequestTransfer;
 use Generated\Shared\Transfer\RestCompaniesResponseTransfer;
+use Propel\Runtime\Exception\PropelException;
 use Spryker\Zed\Company\Business\CompanyFacadeInterface;
 
 class CompanyWriterTest extends Unit
@@ -141,6 +142,47 @@ class CompanyWriterTest extends Unit
         $this->companyTransferMock->expects($this->atLeastOnce())
             ->method('toArray')
             ->willReturn([]);
+
+        $this->assertInstanceOf(
+            RestCompaniesResponseTransfer::class,
+            $this->companyWriter->update(
+                $this->restCompaniesRequestTransferMock
+            )
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testUpdateFailedToSaveError(): void
+    {
+        $this->restCompaniesRequestTransferMock->expects($this->atLeastOnce())
+            ->method('getUuid')
+            ->willReturn($this->uuid);
+
+        $this->companyFacadeInterfaceMock->expects($this->atLeastOnce())
+            ->method('findCompanyByUuid')
+            ->willReturn($this->companyResponseTransferMock);
+
+        $this->companyResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getIsSuccessful')
+            ->willReturn(true);
+
+        $this->companyResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getCompanyTransfer')
+            ->willReturn($this->companyTransferMock);
+
+        $this->restCompaniesRequestTransferMock->expects($this->atLeastOnce())
+            ->method('getRestCompaniesRequestAttributes')
+            ->willReturn($this->restCompaniesRequestAttributesTransferMock);
+
+        $this->companyMapperPluginInterfaceMock->expects($this->atLeastOnce())
+            ->method('map')
+            ->willReturn($this->companyTransferMock);
+
+        $this->companyFacadeInterfaceMock->expects($this->atLeastOnce())
+            ->method('update')
+            ->willThrowException(new PropelException());
 
         $this->assertInstanceOf(
             RestCompaniesResponseTransfer::class,

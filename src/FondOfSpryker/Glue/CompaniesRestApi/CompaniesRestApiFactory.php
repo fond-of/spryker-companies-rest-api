@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace FondOfSpryker\Glue\CompaniesRestApi;
 
+use FondOfSpryker\Glue\CompaniesRestApi\Dependency\CompaniesRestApiToCompanyClientInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesReader;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesReaderInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Companies\CompaniesResourceRelationshipExpander;
@@ -14,7 +15,6 @@ use FondOfSpryker\Glue\CompaniesRestApi\Processor\Mapper\CompaniesMapper;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Mapper\CompaniesMapperInterface;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Validation\RestApiError;
 use FondOfSpryker\Glue\CompaniesRestApi\Processor\Validation\RestApiErrorInterface;
-use Spryker\Client\Company\CompanyClientInterface;
 use Spryker\Glue\Kernel\AbstractFactory;
 
 /**
@@ -31,7 +31,8 @@ class CompaniesRestApiFactory extends AbstractFactory
             $this->getResourceBuilder(),
             $this->createRestApiError(),
             $this->getCompanyClient(),
-            $this->createCompaniesMapper()
+            $this->createCompaniesMapper(),
+            $this->getClient()
         );
     }
 
@@ -73,9 +74,9 @@ class CompaniesRestApiFactory extends AbstractFactory
     }
 
     /**
-     * @return \Spryker\Client\Company\CompanyClientInterface
+     * @return \FondOfSpryker\Glue\CompaniesRestApi\Dependency\CompaniesRestApiToCompanyClientInterface
      */
-    public function getCompanyClient(): CompanyClientInterface
+    public function getCompanyClient(): CompaniesRestApiToCompanyClientInterface
     {
         return $this->getProvidedDependency(CompaniesRestApiDependencyProvider::CLIENT_COMPANY);
     }

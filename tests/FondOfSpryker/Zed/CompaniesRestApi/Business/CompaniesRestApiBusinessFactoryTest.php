@@ -3,9 +3,11 @@
 namespace FondOfSpryker\Zed\CompaniesRestApi\Business;
 
 use Codeception\Test\Unit;
+use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyPermissionInterface;
 use FondOfSpryker\Zed\CompaniesRestApi\Business\Company\CompanyWriterInterface;
 use FondOfSpryker\Zed\CompaniesRestApi\Business\Mapper\CompanyMapperInterface;
 use FondOfSpryker\Zed\CompaniesRestApi\CompaniesRestApiDependencyProvider;
+use FondOfSpryker\Zed\CompaniesRestApi\Persistence\CompaniesRestApiRepository;
 use Spryker\Zed\Company\Business\CompanyFacadeInterface;
 use Spryker\Zed\Kernel\Container;
 
@@ -32,6 +34,11 @@ class CompaniesRestApiBusinessFactoryTest extends Unit
     protected $companyMapperPlugins;
 
     /**
+     * @var \FondOfSpryker\Zed\CompaniesRestApi\Persistence\CompaniesRestApiRepository|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $companiesRestApiRepositoryMock;
+
+    /**
      * @return void
      */
     protected function _before(): void
@@ -46,10 +53,26 @@ class CompaniesRestApiBusinessFactoryTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->companiesRestApiRepositoryMock = $this->getMockBuilder(CompaniesRestApiRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->companyMapperPlugins = [];
 
         $this->companiesRestApiBusinessFactory = new CompaniesRestApiBusinessFactory();
         $this->companiesRestApiBusinessFactory->setContainer($this->containerMock);
+        $this->companiesRestApiBusinessFactory->setRepository($this->companiesRestApiRepositoryMock);
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateCompanyPermission(): void
+    {
+        $this->assertInstanceOf(
+            CompanyPermissionInterface::class,
+            $this->companiesRestApiBusinessFactory->createCompanyPermission()
+        );
     }
 
     /**

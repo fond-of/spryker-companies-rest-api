@@ -67,7 +67,7 @@ class CompanyWriter implements CompanyWriterInterface
         try {
             $companyResponseTransfer = $this->companyFacade->update($companyTransfer);
         } catch (PropelException $e) {
-            return $this->createCompanyDataInvalidErrorResponse();
+            return $this->createCompanyFailedToSaveErrorResponse();
         }
 
         if (!$companyResponseTransfer->getIsSuccessful()) {
