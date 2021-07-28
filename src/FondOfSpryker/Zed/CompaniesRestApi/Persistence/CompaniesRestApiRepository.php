@@ -25,6 +25,7 @@ class CompaniesRestApiRepository extends AbstractRepository implements Companies
                 ->joinWithCustomer()
                     ->useCustomerQuery()
                     ->filterByCustomerReference($naturalIdentifier)
+                    ->endUse()
                 ->endUse()
             ->count();
 
